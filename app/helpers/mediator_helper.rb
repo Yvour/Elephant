@@ -1,0 +1,2 @@
+module MediatorHelper
+end

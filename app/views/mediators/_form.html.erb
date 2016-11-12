@@ -1,0 +1,32 @@
+<div>
+	<input type = submit onclick = "formdata()">
+	<script>
+		function formdata(){
+			 alert("Модальное окно с произвольными данными")
+		}
+		
+	</script>
+	<form action = "/mediators" id = "new_mediator" accept-charset="UTF-8" method = post>
+		
+	<table>
+		<tbody>
+			<tr>
+				<td>Name</td><td><input type = text name = "mediator[name]"></td>
+			</tr>
+			<tr>
+				<td>Email</td><td><input type = text name = "mediator[email]"></td>
+			</tr>
+									<tr>
+				<td>Phone</td><td><input type = text name = "mediator[phone]"></td>
+			</tr>
+			<tr>
+				<td>Comment</td><td><input type = text name = "mediator[comment]"></td>
+			</tr>
+						
+		</tbody>
+	</table>
+	<input type = hidden name = "authenticity_token" value = " <%= form_authenticity_token %>">
+	<input type = submit value = 'Ввести данные'>
+</form>
+	
+</div>
