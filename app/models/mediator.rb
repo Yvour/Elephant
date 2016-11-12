@@ -1,5 +1,10 @@
 class Mediator
   @cookie
+  @last_lead_id_list
+  
+  def get_last_lead_id_list
+    return @last_lead_id_list
+  end
   def get_cookie
     return @cookie
   end
@@ -36,7 +41,7 @@ class Mediator
   def auth
     url = 'https://igelwald.amocrm.ru:443/private/api/auth.php?type=json';
     ar = {'USER_LOGIN'=>'igelwald@mail.ru',
-      'USER_HASH'=>'300131161f69e'}
+      'USER_HASH'=>'300131161f6910e'}
     return perform_request(url, ar)
   end
 
@@ -69,11 +74,17 @@ class Mediator
   end
 
   def new_lead(name, phone, email, comment)
+    auth
+    @last_lead_id_list == '';
     contact_id = JSON.parse(new_contact(name, email, phone).body)['response']['contacts']['add'][0]['id']
     p "contact_id #{contact_id}"
     deal_id = JSON.parse(new_deal(name).body)['response']['leads']['add'][0]['id']
     p "deal_id #{deal_id}"
-    return JSON.parse(new_task(contact_id, comment, deal_id).body)
+    res =  JSON.parse(new_task(contact_id, comment, deal_id).body)
+    p res
+    @last_lead_id_list = res['response']['tasks']['add'].map{|x| x['id']}.join(', ')
+    p "@last_lead_id_list is #{@last_lead_id_list}"
+    return res
   end
 
   def new_deal(name)
